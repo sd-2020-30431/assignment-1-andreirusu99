@@ -1,0 +1,54 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "Model.User" table = "user">
+
+        <id name = "id" type = "int" column = "id">
+            <generator class="native"/>
+        </id>
+
+        <set name = "groceryLists" cascade="all">
+            <key column = "user_id"/>
+            <one-to-many class="Model.GroceryList"/>
+        </set>
+
+        <property name = "firstName" column = "first_name" type = "string"/>
+        <property name = "lastName" column = "last_name" type = "string"/>
+        <property name = "password" column = "passwd" type = "string"/>
+
+    </class>
+
+    <class name = "Model.GroceryList" table = "grocery_list">
+
+        <id name = "id" type = "int" column = "id">
+            <generator class="native"/>
+        </id>
+
+        <set name = "groceryItems" cascade="all">
+            <key column = "list_id"/>
+            <one-to-many class="Model.GroceryItem"/>
+        </set>
+
+        <property name = "name" column = "list_name" type = "string"/>
+
+    </class>
+
+    <class name = "Model.GroceryItem" table = "grocery_item">
+
+        <id name = "id" type = "int" column = "id">
+            <generator class="native"/>
+        </id>
+
+        <property name = "name" column = "item_name" type = "int"/>
+        <property name = "quantity" column = "item_quantity" type = "int"/>
+        <property name = "calorieValue" column = "calorie_value" type = "int"/>
+        <property name = "purchaseDate" column = "purchase_date" type = "date"/>
+        <property name = "consumptionDate" column = "consumption_date" type = "date"/>
+        <property name = "expirationDate" column = "expiration_date" type = "date"/>
+
+    </class>
+
+</hibernate-mapping>
