@@ -102,4 +102,9 @@ public class GroceryItem {
         GroceryItem obj2 = (GroceryItem) obj;
         return((this.id == obj2.getId()) && (this.name.equals(obj2.getName())));
     }
+
+    @Override
+    public String toString() {
+        return name + ", " + quantity.toString();
+    }
 }

@@ -42,7 +42,7 @@
             <generator class="native"/>
         </id>
 
-        <property name = "name" column = "item_name" type = "int"/>
+        <property name = "name" column = "item_name" type = "string"/>
         <property name = "quantity" column = "item_quantity" type = "int"/>
         <property name = "calorieValue" column = "calorie_value" type = "int"/>
         <property name = "purchaseDate" column = "purchase_date" type = "date"/>
