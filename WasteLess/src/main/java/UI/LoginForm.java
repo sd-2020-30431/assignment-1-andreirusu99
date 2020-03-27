@@ -1,6 +1,6 @@
 package UI;
 
-import Logic.Login;
+import Logic.LoginManager;
 
 import javax.swing.*;
 
@@ -17,16 +17,16 @@ public class LoginForm {
     private JPanel mainPanel;
 
 
-    public LoginForm(Login login) {
+    public LoginForm(LoginManager loginManager) {
 
         submitButton.addActionListener(e -> {
             String fname = firstNameTF.getText();
             String lname = lastNameTF.getText();
             String password = passwordTF.getText();
 
-            String response = login.attemptLogInUser(fname, lname, password);
+            String response = loginManager.attemptLogInUser(fname, lname, password);
 
-            JOptionPane.showMessageDialog(null, response, "Login result", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, response, "LoginManager result", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 

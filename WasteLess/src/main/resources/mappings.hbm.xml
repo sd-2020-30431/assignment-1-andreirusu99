@@ -10,7 +10,7 @@
             <generator class="native"/>
         </id>
 
-        <set name = "groceryLists" cascade="all">
+        <set name = "groceryLists" cascade="all" lazy="false">
             <key column = "user_id"/>
             <one-to-many class="Model.GroceryList"/>
         </set>
@@ -27,7 +27,7 @@
             <generator class="native"/>
         </id>
 
-        <set name = "groceryItems" cascade="all">
+        <set name = "groceryItems" cascade="all" lazy="false">
             <key column = "list_id"/>
             <one-to-many class="Model.GroceryItem"/>
         </set>

@@ -6,22 +6,22 @@ import Model.User;
 
 import java.util.List;
 
-public class Login {
+public class LoginManager {
 
     private int loggedInUserId = 0;
-    private UserRepo dbOperationManager;
-    private CustomEventHandler loggedInEventHandler;
+    private UserRepo userRepo;
+    private CustomEventHandler eventHandler;
 
-    public Login(UserRepo manager) {
-        dbOperationManager = manager;
+    public LoginManager(UserRepo repo) {
+        userRepo = repo;
     }
 
     public void registerLoggedInEventHandler(CustomEventHandler handler){
-        this.loggedInEventHandler = handler;
+        this.eventHandler = handler;
     }
 
     public String attemptLogInUser(String fname, String lname, String password){
-        List users = dbOperationManager.getAllUsers();
+        List users = userRepo.getAllUsers();
 
         if(!ValidatorUtil.isNameValid(fname)
                 || !ValidatorUtil.isNameValid(lname)){
@@ -38,7 +38,7 @@ public class Login {
                 if(u.getPassword().equals(password)){
                     // the password is correct
                     loggedInUserId = u.getId();
-                    loggedInEventHandler.handleLoggedInSuccess();
+                    eventHandler.handleLoggedInSuccess();
                     return "User " + fname + " " + lname + " logged in successfully.";
                 } else {
                     return "User "  + fname + " " + lname +  " wrong password!";
@@ -46,7 +46,7 @@ public class Login {
             }
         }
 
-        loggedInUserId = dbOperationManager.addUserToDB(fname, lname, password, null);
+        loggedInUserId = userRepo.addUserToDB(fname, lname, password, null);
 
         return "User "  + fname + " " + lname +  " registered successfully, ID = " + loggedInUserId;
     }

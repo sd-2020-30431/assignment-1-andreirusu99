@@ -18,4 +18,8 @@ public abstract class ValidatorUtil {
         return date.matches("\\d{1,2}/\\d{2}/\\d{2}"); // "dd/mm/yy" format
     }
 
+    public static boolean isListNameValid(String name){
+        return name.matches("\\S{3,}"); // at least 3 non-whitespace characters
+    }
+
 }

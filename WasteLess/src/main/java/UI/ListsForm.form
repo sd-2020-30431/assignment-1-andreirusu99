@@ -23,14 +23,6 @@
         </constraints>
         <properties/>
       </component>
-      <component id="dd15c" class="javax.swing.JList" binding="list1" default-binding="true">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
-        <properties/>
-      </component>
       <component id="d4130" class="javax.swing.JTextField" binding="newItemNameTF">
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -79,7 +71,7 @@
           <text value="Calories"/>
         </properties>
       </component>
-      <component id="7f83" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="7f83" class="javax.swing.JTextField" binding="newListNameTF">
         <constraints>
           <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -95,7 +87,7 @@
           <text value="Select a list, create a new one or add an item to the current list"/>
         </properties>
       </component>
-      <component id="78e24" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+      <component id="78e24" class="javax.swing.JTextField" binding="newItemPurchaseDateTF">
         <constraints>
           <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -103,7 +95,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="d820b" class="javax.swing.JTextField" binding="textField3" default-binding="true">
+      <component id="d820b" class="javax.swing.JTextField" binding="newItemConsumptionDateTF">
         <constraints>
           <grid row="8" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -111,7 +103,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="c583c" class="javax.swing.JTextField" binding="textField4" default-binding="true">
+      <component id="c583c" class="javax.swing.JTextField" binding="newItemExpirationDateTF">
         <constraints>
           <grid row="9" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -119,7 +111,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="c01ee" class="javax.swing.JLabel">
+      <component id="c01ee" class="javax.swing.JLabel" binding="newItemPurchaseLabel">
         <constraints>
           <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -127,7 +119,7 @@
           <text value="Purchase"/>
         </properties>
       </component>
-      <component id="79cb8" class="javax.swing.JLabel">
+      <component id="79cb8" class="javax.swing.JLabel" binding="newItemConsumptionLabel">
         <constraints>
           <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -135,7 +127,7 @@
           <text value="Consumption"/>
         </properties>
       </component>
-      <component id="5b773" class="javax.swing.JLabel">
+      <component id="5b773" class="javax.swing.JLabel" binding="newItemExpirationLabel">
         <constraints>
           <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -166,6 +158,22 @@
         <properties>
           <text value="New List name"/>
         </properties>
+      </component>
+      <component id="4c253" class="javax.swing.JButton" binding="generateReportsButton" default-binding="true">
+        <constraints>
+          <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Generate Reports"/>
+        </properties>
+      </component>
+      <component id="98f3" class="javax.swing.JTextArea" binding="itemsTextArea">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+        </constraints>
+        <properties/>
       </component>
     </children>
   </grid>

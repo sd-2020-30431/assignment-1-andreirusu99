@@ -53,4 +53,9 @@ public class GroceryList {
         tmp = ( id + name ).hashCode();
         return tmp;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

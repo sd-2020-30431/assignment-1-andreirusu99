@@ -105,6 +105,11 @@ public class GroceryItem {
 
     @Override
     public String toString() {
-        return name + ", " + quantity.toString();
+        return name + ", "
+                + quantity.toString() + ", "
+                + calorieValue + " cal, "
+                + purchaseDate + ", "
+                + consumptionDate + ", "
+                + expirationDate;
     }
 }

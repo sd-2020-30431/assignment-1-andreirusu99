@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import org.picocontainer.MutablePicoContainer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -61,7 +62,7 @@ public class UserRepo {
     /**
      * Method to get all users from the database
      */
-    public List<User> getAllUsers(){
+    public List getAllUsers(){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         List users = picoContainer.getComponent(ArrayList.class);
@@ -79,7 +80,7 @@ public class UserRepo {
         return users;
     }
 
-    public void updateUserInDB(Integer UserID, String password ){
+    public void updateUserPasswordInDB(Integer UserID, String password ){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
 
@@ -95,6 +96,72 @@ public class UserRepo {
         } finally {
             session.close();
         }
+    }
+
+    public User getUser(Integer userId){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        User u = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            u = session.get(User.class, userId);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return u;
+    }
+
+    public Set getUsersLists(Integer userId){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Set sets = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            User user = session.get(User.class, userId);
+            sets = user.getGroceryLists();
+            System.out.println(sets);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return sets;
+    }
+
+    public boolean addUserListInDB(Integer UserID, GroceryList newList ){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        boolean successful = false;
+
+        try {
+            tx = session.beginTransaction();
+
+            User user = session.get(User.class, UserID);
+            Set lists = user.getGroceryLists();
+            lists.add(newList);
+            user.setGroceryLists(lists);
+            session.update(user);
+            tx.commit();
+            successful = true;
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return successful;
     }
 
     /* Method to delete an user from the records */
