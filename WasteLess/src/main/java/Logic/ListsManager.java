@@ -2,13 +2,14 @@ package Logic;
 
 import Callbacks.CustomEventHandler;
 import DB.UserRepo;
+import Model.GroceryItem;
 import Model.GroceryList;
 import Model.User;
-import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
-import java.io.ObjectInputStream;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Set;
 
 public class ListsManager {
@@ -18,6 +19,8 @@ public class ListsManager {
     private CustomEventHandler eventHandler;
     private LoginManager login;
     private MutablePicoContainer picoContainer;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public ListsManager(UserRepo repo, LoginManager login, MutablePicoContainer picoContainer){
         this.userRepo = repo;
@@ -35,16 +38,32 @@ public class ListsManager {
         GroceryList newList = picoContainer.getComponent(GroceryList.class);
         newList.setName(newListName);
 
-        return (userRepo.addUserListInDB(userId, newList));
+        return (userRepo.addListToUser(userId, newList));
     }
 
-    public boolean addNewItemToList(String name,
+    public boolean addNewItemToList(String listName,
+                                    String name,
                                     String quantity,
                                     String calories,
                                     String purchaseDate,
                                     String consumptionDate,
                                     String expirationDate){
-        return false;
+
+        GroceryList listToAddTo = getGroceryList(listName);
+        GroceryItem newItem = picoContainer.getComponent(GroceryItem.class);
+        newItem.setName(name);
+        newItem.setQuantity(Integer.parseInt(quantity));
+        newItem.setCalorieValue(Integer.parseInt(calories));
+        try {
+            newItem.setPurchaseDate(dateFormat.parse(purchaseDate));
+            newItem.setConsumptionDate(dateFormat.parse(consumptionDate));
+            newItem.setExpirationDate(dateFormat.parse(expirationDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int userId = getCurrentUser().getId();
+        return userRepo.addItemToList(userId, listToAddTo,newItem);
     }
 
     public User getCurrentUser(){

@@ -45,10 +45,15 @@ public class LoginManager {
                 }
             }
         }
+        if(ValidatorUtil.isPasswordValid(password)){
+            loggedInUserId = userRepo.addUserToDB(fname, lname, password, null);
+            eventHandler.handleLoggedInSuccess();
+            return "User "  + fname + " " + lname +  " registered successfully, ID = " + loggedInUserId;
 
-        loggedInUserId = userRepo.addUserToDB(fname, lname, password, null);
+        } else {
+            return "Password invalid";
+        }
 
-        return "User "  + fname + " " + lname +  " registered successfully, ID = " + loggedInUserId;
     }
 
     public int getLoggedInUserId() {

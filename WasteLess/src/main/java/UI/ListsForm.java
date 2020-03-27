@@ -42,12 +42,15 @@ public class ListsForm {
             listSelector.addItem(list.toString());
         }
 
-        fillTextArea(listSelector.getSelectedItem().toString());
+        if(lists.size() > 0) {
+            fillTextArea(listSelector.getSelectedItem().toString());
+        }
 
         newListButton.addActionListener(e ->  {
             String newListName = newListNameTF.getText();
             if(ValidatorUtil.isListNameValid(newListName)) {
                 if (listsManager.addNewListToUser(newListName)) {
+                    listSelector.addItem(newListName);
                     JOptionPane.showMessageDialog(null,
                             "New List " + "\"" + newListName + "\"" + " added successfully", "INFO",
                             JOptionPane.INFORMATION_MESSAGE);
@@ -63,6 +66,7 @@ public class ListsForm {
                         JOptionPane.ERROR_MESSAGE);
             }
             newListNameTF.setText("");
+
         });
 
         addItemButton.addActionListener(e -> {
@@ -80,8 +84,17 @@ public class ListsForm {
                 && ValidatorUtil.isDateValid(consumptionDate)
                 && ValidatorUtil.isDateValid(expirationDate)
             ){
-                listsManager.addNewItemToList(itemName, itemQuantity, itemCalorie, purchaseDate, consumptionDate, expirationDate);
-                fillTextArea(listSelector.getSelectedItem().toString());
+                if(listsManager.addNewItemToList(listSelector.getSelectedItem().toString(),
+                        itemName, itemQuantity, itemCalorie, purchaseDate, consumptionDate, expirationDate)) {
+                    fillTextArea(listSelector.getSelectedItem().toString());
+                    JOptionPane.showMessageDialog(null,
+                            "Item added successfully!", "INFO",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "Invalid data!", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 

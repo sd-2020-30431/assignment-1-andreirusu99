@@ -1,5 +1,6 @@
 package DB;
 
+import Model.GroceryItem;
 import Model.GroceryList;
 import Model.User;
 import org.hibernate.HibernateException;
@@ -140,7 +141,7 @@ public class UserRepo {
         return sets;
     }
 
-    public boolean addUserListInDB(Integer UserID, GroceryList newList ){
+    public boolean addListToUser(Integer UserID, GroceryList newList ){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         boolean successful = false;
@@ -152,6 +153,39 @@ public class UserRepo {
             Set lists = user.getGroceryLists();
             lists.add(newList);
             user.setGroceryLists(lists);
+            session.update(user);
+            tx.commit();
+            successful = true;
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return successful;
+    }
+
+    public boolean addItemToList(Integer UserID, GroceryList theList, GroceryItem newItem ){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        boolean successful = false;
+
+        try {
+            tx = session.beginTransaction();
+
+            User user = session.get(User.class, UserID);
+            Set lists = user.getGroceryLists();
+
+            for(Object o : lists){
+                GroceryList list = (GroceryList)o;
+                Set items = list.getGroceryItems();;
+                if(list.equals(theList)){
+                    items.add(newItem);
+                }
+                list.setGroceryItems(items);
+            }
+            user.setGroceryLists(lists);
+
             session.update(user);
             tx.commit();
             successful = true;
