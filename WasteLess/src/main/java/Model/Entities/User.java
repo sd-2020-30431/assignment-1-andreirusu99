@@ -1,4 +1,4 @@
-package Model;
+package Model.Entities;
 
 import java.util.*;
 
@@ -8,6 +8,8 @@ public class User {
     private String lastName;
     private String password;
     private Set groceryLists;
+
+    private int calorieIntake = 0;
 
     public User() {}
 
@@ -55,6 +57,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getCalorieIntake() {
+        return calorieIntake;
+    }
+
+    public void setCalorieIntake(int calorieIntake) {
+        this.calorieIntake = calorieIntake;
     }
 
     @Override

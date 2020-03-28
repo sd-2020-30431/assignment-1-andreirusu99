@@ -1,11 +1,9 @@
 package UI;
 
-import DB.UserRepo;
-import Logic.ListsManager;
-import Logic.ValidatorUtil;
-import Model.GroceryItem;
-import Model.GroceryList;
-import Model.User;
+import Logic.Managers.ListsManager;
+import Logic.Validators.ValidatorUtil;
+import Model.Entities.GroceryItem;
+import Model.Entities.GroceryList;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -32,19 +30,15 @@ public class ListsForm {
     private JLabel newItemExpirationLabel;
     private JButton generateReportsButton;
     private JTextArea itemsTextArea;
+    private JTextField targetIntakeTF;
+    private JLabel targetIntakeLabel;
+    private JButton setIntakeButton;
     private ListsManager listsManager;
 
     public ListsForm(ListsManager manager){
         this.listsManager = manager;
 
-        Set lists = listsManager.getCurrentUserLists();
-        for(Object list : lists) {
-            listSelector.addItem(list.toString());
-        }
-
-        if(lists.size() > 0) {
-            fillTextArea(listSelector.getSelectedItem().toString());
-        }
+        initUI();
 
         newListButton.addActionListener(e ->  {
             String newListName = newListNameTF.getText();
@@ -77,20 +71,29 @@ public class ListsForm {
             String consumptionDate = newItemConsumptionDateTF.getText();
             String expirationDate = newItemExpirationDateTF.getText();
 
-            if(ValidatorUtil.isNameValid(itemName)
-                && ValidatorUtil.isNumberValid(itemQuantity)
-                && ValidatorUtil.isNumberValid(itemCalorie)
-                && ValidatorUtil.isDateValid(purchaseDate)
-                && ValidatorUtil.isDateValid(consumptionDate)
-                && ValidatorUtil.isDateValid(expirationDate)
-            ){
-                if(listsManager.addNewItemToList(listSelector.getSelectedItem().toString(),
-                        itemName, itemQuantity, itemCalorie, purchaseDate, consumptionDate, expirationDate)) {
-                    fillTextArea(listSelector.getSelectedItem().toString());
-                    JOptionPane.showMessageDialog(null,
-                            "Item added successfully!", "INFO",
-                            JOptionPane.INFORMATION_MESSAGE);
-                }
+            if(listsManager.addNewItemToList(listSelector.getSelectedItem().toString(),
+                    itemName, itemQuantity, itemCalorie, purchaseDate, consumptionDate, expirationDate)) {
+
+                fillTextArea(listSelector.getSelectedItem().toString());
+                JOptionPane.showMessageDialog(null,
+                        "Item added successfully!", "INFO",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "Invalid data!", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        generateReportsButton.addActionListener(e -> listsManager.generateReports());
+
+        listSelector.addActionListener(e -> fillTextArea(listSelector.getSelectedItem().toString()));
+
+        setIntakeButton.addActionListener(e ->  {
+            if(listsManager.setUserCalorieIntake(targetIntakeTF.getText())){
+                JOptionPane.showMessageDialog(null,
+                        "Calorie intake added successfully!", "INFO",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null,
                         "Invalid data!", "ERROR",
@@ -99,12 +102,10 @@ public class ListsForm {
         });
 
         generateReportsButton.addActionListener(e -> {
-
-        });
-
-        listSelector.addActionListener(e -> {
-            System.out.println("Element " + listSelector.getSelectedItem().toString() + " selected.");
-            fillTextArea(listSelector.getSelectedItem().toString());
+            String message = listsManager.generateReports();
+            JOptionPane.showMessageDialog(null,
+                    message, "Weekly and Monthly Reports",
+                    JOptionPane.INFORMATION_MESSAGE);
         });
     }
 
@@ -125,4 +126,16 @@ public class ListsForm {
     public JPanel getMainPanel() {
         return mainPanel;
     }
+
+    private void initUI(){
+        Set lists = listsManager.getCurrentUserLists();
+        for(Object list : lists) {
+            listSelector.addItem(list.toString());
+        }
+
+        if(lists.size() > 0) {
+            fillTextArea(listSelector.getSelectedItem().toString());
+        }
+    }
+
 }

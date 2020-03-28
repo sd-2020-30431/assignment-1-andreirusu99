@@ -1,8 +1,8 @@
 package DB;
 
-import Model.GroceryItem;
-import Model.GroceryList;
-import Model.User;
+import Model.Entities.GroceryItem;
+import Model.Entities.GroceryList;
+import Model.Entities.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,7 +11,6 @@ import org.hibernate.cfg.Configuration;
 import org.picocontainer.MutablePicoContainer;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

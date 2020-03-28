@@ -1,7 +1,4 @@
-package Callbacks;
-
-import Model.GroceryItem;
-import Model.GroceryList;
+package Interfaces;
 
 public interface CustomEventHandler {
     void handleLoggedInSuccess();

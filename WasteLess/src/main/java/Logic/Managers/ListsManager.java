@@ -1,35 +1,34 @@
-package Logic;
+package Logic.Managers;
 
-import Callbacks.CustomEventHandler;
 import DB.UserRepo;
-import Model.GroceryItem;
-import Model.GroceryList;
-import Model.User;
+import Interfaces.Report;
+import Logic.Validators.ValidatorUtil;
+import Model.Entities.GroceryItem;
+import Model.Entities.GroceryList;
+import Model.Entities.User;
+import Model.Reports.Factories.ReportFactory;
+import Model.Reports.ReportEntities.MonthlyReport;
+import org.jetbrains.annotations.NotNull;
 import org.picocontainer.MutablePicoContainer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.Set;
 
 public class ListsManager {
 
-
     private UserRepo userRepo;
-    private CustomEventHandler eventHandler;
     private LoginManager login;
     private MutablePicoContainer picoContainer;
+    private ReportFactory reportFactory;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public ListsManager(UserRepo repo, LoginManager login, MutablePicoContainer picoContainer){
+    public ListsManager(UserRepo repo, LoginManager login, @NotNull MutablePicoContainer picoContainer){
         this.userRepo = repo;
         this.login = login;
         this.picoContainer = picoContainer;
-    }
-
-    public void registerEventHandler(CustomEventHandler handler){
-        eventHandler = handler;
+        this.reportFactory = picoContainer.getComponent(ReportFactory.class);
     }
 
     public boolean addNewListToUser(String newListName){
@@ -48,6 +47,14 @@ public class ListsManager {
                                     String purchaseDate,
                                     String consumptionDate,
                                     String expirationDate){
+
+        if(!ValidatorUtil.isNameValid(name)
+                || !ValidatorUtil.isNumberValid(quantity)
+                || !ValidatorUtil.isNumberValid(calories)
+                || !ValidatorUtil.isDateValid(purchaseDate)
+                || !ValidatorUtil.isDateValid(consumptionDate)
+                || !ValidatorUtil.isDateValid(expirationDate)
+        ){ return false;}
 
         GroceryList listToAddTo = getGroceryList(listName);
         GroceryItem newItem = picoContainer.getComponent(GroceryItem.class);
@@ -88,6 +95,32 @@ public class ListsManager {
             }
         }
         return null;
+    }
+
+    public boolean setUserCalorieIntake(String calorieIntake){
+        User currentUser = getCurrentUser();
+        if(ValidatorUtil.isNumberValid(calorieIntake)){
+            currentUser.setCalorieIntake(Integer.parseInt(calorieIntake));
+            return true;
+        }
+        return false;
+    }
+
+    public String generateReports(){
+        StringBuilder builder = new StringBuilder();
+
+        User currentUSer = getCurrentUser();
+
+        if(currentUSer.getCalorieIntake() > 0){
+
+            Report monthlyReport = reportFactory.getReport("MONTHLY");
+            Report weeklyReport = reportFactory.getReport("WEEKLY");
+
+
+
+        } else return "User calorie intake not set!";
+
+        return builder.toString();
     }
 
 }

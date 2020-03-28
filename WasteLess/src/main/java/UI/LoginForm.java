@@ -1,6 +1,6 @@
 package UI;
 
-import Logic.LoginManager;
+import Logic.Managers.LoginManager;
 
 import javax.swing.*;
 

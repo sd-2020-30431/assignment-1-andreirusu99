@@ -1,13 +1,13 @@
-package Logic;
+package Logic.Managers;
 
-import java.sql.Date;
 import java.util.*;
 
-import Callbacks.CustomEventHandler;
+import Interfaces.CustomEventHandler;
 import DB.UserRepo;
-import Model.GroceryItem;
-import Model.GroceryList;
-import Model.User;
+import Model.Entities.GroceryItem;
+import Model.Entities.GroceryList;
+import Model.Entities.User;
+import Model.Reports.Factories.ReportFactory;
 import UI.ListsForm;
 import UI.LoginForm;
 import org.picocontainer.DefaultPicoContainer;
@@ -30,6 +30,7 @@ public class ManageUser implements CustomEventHandler {
         picoContainer.addComponent(ArrayList.class);
         picoContainer.addComponent(GroceryItem.class);
         picoContainer.addComponent(GroceryList.class);
+        picoContainer.addComponent(ReportFactory.class);
 
         UserRepo userRepo = new UserRepo(picoContainer);
         loginManager = new LoginManager(userRepo);
@@ -37,7 +38,6 @@ public class ManageUser implements CustomEventHandler {
 
         CustomEventHandler handler = new ManageUser();
         loginManager.registerLoggedInEventHandler(handler);
-        listsManager.registerEventHandler(handler);
 
         LoginForm loginForm = new LoginForm(loginManager);
         loginFrame = new JFrame("Login");
@@ -45,8 +45,6 @@ public class ManageUser implements CustomEventHandler {
         loginFrame.pack();
         loginFrame.setVisible(true);
 
-        //userRepo.addUserToDB("Soy", "Boy", "pass", groceryLists);
-        //userRepo.updateUser(5, "password1");
         System.out.println(userRepo.getAllUsers());
 
     }

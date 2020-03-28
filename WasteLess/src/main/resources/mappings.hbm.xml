@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name = "Model.User" table = "user">
+    <class name = "Model.Entities.User" table = "user">
 
         <id name = "id" type = "int" column = "id">
             <generator class="native"/>
@@ -12,7 +12,7 @@
 
         <set name = "groceryLists" cascade="all" lazy="false">
             <key column = "user_id"/>
-            <one-to-many class="Model.GroceryList"/>
+            <one-to-many class="Model.Entities.GroceryList"/>
         </set>
 
         <property name = "firstName" column = "first_name" type = "string"/>
@@ -21,7 +21,7 @@
 
     </class>
 
-    <class name = "Model.GroceryList" table = "grocery_list">
+    <class name = "Model.Entities.GroceryList" table = "grocery_list">
 
         <id name = "id" type = "int" column = "id">
             <generator class="native"/>
@@ -29,14 +29,14 @@
 
         <set name = "groceryItems" cascade="all" lazy="false">
             <key column = "list_id"/>
-            <one-to-many class="Model.GroceryItem"/>
+            <one-to-many class="Model.Entities.GroceryItem"/>
         </set>
 
         <property name = "name" column = "list_name" type = "string"/>
 
     </class>
 
-    <class name = "Model.GroceryItem" table = "grocery_item">
+    <class name = "Model.Entities.GroceryItem" table = "grocery_item">
 
         <id name = "id" type = "int" column = "id">
             <generator class="native"/>

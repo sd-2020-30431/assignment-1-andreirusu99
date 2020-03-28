@@ -1,8 +1,9 @@
-package Logic;
+package Logic.Managers;
 
-import Callbacks.CustomEventHandler;
+import Interfaces.CustomEventHandler;
 import DB.UserRepo;
-import Model.User;
+import Logic.Validators.ValidatorUtil;
+import Model.Entities.User;
 
 import java.util.List;
 
