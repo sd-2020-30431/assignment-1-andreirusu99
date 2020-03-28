@@ -82,7 +82,7 @@ public class ListsManager {
     }
 
     /**
-     * Method to return a list of the user by name
+     * Method to return a grocery list of the user by name
      * @param listName the name of the list to be retrieved
      * @return the grocery list required or null it it does not exist
      */
@@ -98,10 +98,9 @@ public class ListsManager {
     }
 
     public boolean setUserCalorieIntake(String calorieIntake){
-        User currentUser = getCurrentUser();
+        Integer currentUserId = getCurrentUser().getId();
         if(ValidatorUtil.isNumberValid(calorieIntake)){
-            currentUser.setCalorieIntake(Integer.parseInt(calorieIntake));
-            return true;
+            return userRepo.updateUserCalorieIntake(currentUserId, Integer.parseInt(calorieIntake));
         }
         return false;
     }
@@ -109,16 +108,32 @@ public class ListsManager {
     public String generateReports(){
         StringBuilder builder = new StringBuilder();
 
-        User currentUSer = getCurrentUser();
+        User currentUser = getCurrentUser();
 
-        if(currentUSer.getCalorieIntake() > 0){
+        if(currentUser.getCalorieIntake() > 0){
 
             Report monthlyReport = reportFactory.getReport("MONTHLY");
             Report weeklyReport = reportFactory.getReport("WEEKLY");
 
+            Integer weeklyCal = weeklyReport.computeWastedCalories(getCurrentUser());
+            Integer monthlyCal = monthlyReport.computeWastedCalories(getCurrentUser());
 
+            builder.append("Weekly wasted calories: ");
+            builder.append(weeklyCal);
+            builder.append("\n*********************\n");
 
-        } else return "User calorie intake not set!";
+            builder.append("Monthly wasted calories: ");
+            builder.append(monthlyCal);
+            builder.append("\n*********************\n");
+
+            if(weeklyCal > currentUser.getCalorieIntake() || monthlyCal > currentUser.getCalorieIntake()){
+                builder.append("Places to donate excess food: \n");
+                builder.append("https://www.feedingamerica.org/ \n");
+                builder.append("https://www.rescuingleftovercuisine.org/ \n");
+                builder.append("https://extrafood.org/ \n");
+            }
+
+        } else builder.append("User calorie intake not set!");
 
         return builder.toString();
     }

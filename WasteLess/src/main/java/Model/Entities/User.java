@@ -9,7 +9,7 @@ public class User {
     private String password;
     private Set groceryLists;
 
-    private int calorieIntake = 0;
+    private Integer calorieIntake = 0;
 
     public User() {}
 
@@ -59,11 +59,11 @@ public class User {
         this.password = password;
     }
 
-    public int getCalorieIntake() {
+    public Integer getCalorieIntake() {
         return calorieIntake;
     }
 
-    public void setCalorieIntake(int calorieIntake) {
+    public void setCalorieIntake(Integer calorieIntake) {
         this.calorieIntake = calorieIntake;
     }
 

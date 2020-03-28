@@ -98,6 +98,26 @@ public class UserRepo {
         }
     }
 
+    public boolean updateUserCalorieIntake(Integer UserID, Integer calories){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        boolean successful = false;
+        try {
+            tx = session.beginTransaction();
+            User user = session.get(User.class, UserID);
+            user.setCalorieIntake(calories);
+            session.update(user);
+            tx.commit();
+            successful = true;
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return  successful;
+    }
+
     public User getUser(Integer userId){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
